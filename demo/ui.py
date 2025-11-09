@@ -12,11 +12,84 @@ from demo.processor import IDPhotoProcessor
 
 def load_description(fp):
     """
-    加载title.md文件作为Demo的顶部栏
+    返回Demo的顶部栏HTML内容
     """
-    with open(fp, "r", encoding="utf-8") as f:
-        content = f.read()
-    return content
+    return """
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+      <div style="display: flex; align-items: center;">
+        <b style="color: #1a73e8; font-size: 32px;">优途证件照</b>
+      </div>
+      <div style="margin-top: 10px; color: #666; font-size: 16px;">
+        专业级证件照，在线快速轻松搞定
+      </div>
+    </div>
+    <style>
+    /* 统一组件主题色 */
+    :root {
+      --primary-color: #1a73e8;
+    }
+    
+    /* 按钮样式 */
+    .gr-button-primary {
+      background-color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+    }
+    
+    /* 单选按钮 */
+    input[type="radio"]:checked + label::after {
+      background-color: var(--primary-color) !important;
+    }
+    
+    /* 复选框 */
+    input[type="checkbox"]:checked + label::after {
+      background-color: var(--primary-color) !important;
+    }
+    
+    /* 下拉选择框 */
+    .gr-dropdown {
+      border-color: var(--primary-color) !important;
+    }
+    
+    /* 滑动条 */
+    .gr-slider input[type="range"]::-webkit-slider-thumb {
+      background-color: var(--primary-color) !important;
+    }
+    .gr-slider input[type="range"]::-moz-range-thumb {
+      background-color: var(--primary-color) !important;
+    }
+    .gr-slider input[type="range"]::-ms-thumb {
+      background-color: var(--primary-color) !important;
+    }
+    
+    /* 选项卡 */
+    .gr-tab {
+      border-color: var(--primary-color) !important;
+    }
+    .gr-tab-active {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+    }
+    
+    /* 折叠面板 */
+    .gr-accordion-item .gr-accordion-header {
+      border-color: var(--primary-color) !important;
+    }
+    .gr-accordion-item .gr-accordion-header:hover {
+      background-color: rgba(26, 115, 232, 0.1) !important;
+    }
+    
+    /* 移除底部版权信息 */
+    footer {
+      display: none !important;
+    }
+    
+    /* 自定义按钮样式 */
+    #btn {
+      background-color: var(--primary-color) !important;
+      color: white !important;
+    }
+    </style>
+    """
 
 
 def create_ui(
@@ -358,6 +431,15 @@ def create_ui(
                     elem_id="btn",
                     variant="primary"
                 )
+                # 添加CSS来设置按钮颜色
+                gr.HTML("""
+                <style>
+                #btn {
+                    background-color: #1a73e8 !important;
+                    color: white !important;
+                }
+                </style>
+                """)
 
                 example_images = gr.Examples(
                     inputs=[img_input],
@@ -778,4 +860,6 @@ def create_ui(
                 ],
             )
 
+    # 移除底部的Gradio版权信息
+    demo.config["footer"] = ""
     return demo
